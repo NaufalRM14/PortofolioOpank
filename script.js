@@ -50,10 +50,10 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ========== SCROLL ANIMATIONS ==========
+// ========== ENHANCED SCROLL ANIMATIONS ==========
 const observerOptions = {
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -100px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -65,7 +65,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe all animatable elements
-document.querySelectorAll('.skill-card, .project-card, .achievement-card, .timeline-item, .info-card, .tech-item').forEach(el => {
+document.querySelectorAll('.skill-card, .project-card, .achievement-card, .timeline-item, .info-card, .tech-item, .cert-card').forEach(el => {
     el.classList.add('animate-item');
     observer.observe(el);
 });
@@ -75,8 +75,9 @@ const style = document.createElement('style');
 style.textContent = `
     .animate-item {
         opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
+        transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .animate-item.animate-in {
@@ -84,42 +85,35 @@ style.textContent = `
         transform: translateY(0);
     }
     
-    .skill-card:nth-child(2) { transition-delay: 0.1s; }
-    .skill-card:nth-child(3) { transition-delay: 0.2s; }
-    .skill-card:nth-child(4) { transition-delay: 0.3s; }
+    .skill-card:nth-child(1) { transition-delay: 0s; }
+    .skill-card:nth-child(2) { transition-delay: 0.15s; }
+    .skill-card:nth-child(3) { transition-delay: 0.3s; }
     
+    .project-card:nth-child(1) { transition-delay: 0s; }
     .project-card:nth-child(2) { transition-delay: 0.1s; }
-    .project-card:nth-child(3) { transition-delay: 0.15s; }
-    .project-card:nth-child(4) { transition-delay: 0.2s; }
-    .project-card:nth-child(5) { transition-delay: 0.25s; }
-    .project-card:nth-child(6) { transition-delay: 0.3s; }
+    .project-card:nth-child(3) { transition-delay: 0.2s; }
+    .project-card:nth-child(4) { transition-delay: 0.3s; }
+    .project-card:nth-child(5) { transition-delay: 0.4s; }
+    .project-card:nth-child(6) { transition-delay: 0.5s; }
     
-    .achievement-card:nth-child(2) { transition-delay: 0.1s; }
-    .achievement-card:nth-child(3) { transition-delay: 0.2s; }
-    .achievement-card:nth-child(4) { transition-delay: 0.3s; }
+    .achievement-card:nth-child(1) { transition-delay: 0s; }
+    .achievement-card:nth-child(2) { transition-delay: 0.15s; }
+    .achievement-card:nth-child(3) { transition-delay: 0.3s; }
+    .achievement-card:nth-child(4) { transition-delay: 0.45s; }
+    .achievement-card:nth-child(5) { transition-delay: 0.6s; }
     
-    .timeline-item:nth-child(2) { transition-delay: 0.15s; }
-    .timeline-item:nth-child(3) { transition-delay: 0.3s; }
-    .timeline-item:nth-child(4) { transition-delay: 0.45s; }
+    .timeline-item:nth-child(1) { transition-delay: 0s; }
+    .timeline-item:nth-child(2) { transition-delay: 0.2s; }
+    .timeline-item:nth-child(3) { transition-delay: 0.4s; }
+    .timeline-item:nth-child(4) { transition-delay: 0.6s; }
+    
+    .cert-card:nth-child(1) { transition-delay: 0s; }
+    .cert-card:nth-child(2) { transition-delay: 0.15s; }
+    .cert-card:nth-child(3) { transition-delay: 0.3s; }
+    .cert-card:nth-child(4) { transition-delay: 0.45s; }
+    .cert-card:nth-child(5) { transition-delay: 0.6s; }
 `;
 document.head.appendChild(style);
-
-// ========== PROGRESS BAR ANIMATION ==========
-const progressBars = document.querySelectorAll('.progress-fill');
-
-const progressObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const progress = entry.target.style.getPropertyValue('--progress');
-            entry.target.style.width = progress;
-        }
-    });
-}, { threshold: 0.5 });
-
-progressBars.forEach(bar => {
-    bar.style.width = '0%';
-    progressObserver.observe(bar);
-});
 
 // ========== PORTFOLIO FILTER ==========
 const filterBtns = document.querySelectorAll('.filter-btn');
@@ -160,14 +154,14 @@ contactForm.addEventListener('submit', (e) => {
     const formData = new FormData(contactForm);
     const data = Object.fromEntries(formData);
 
-    // Show success message (in real app, this would send to a server)
+    // Show success message
     const btn = contactForm.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
 
     btn.innerHTML = '<i data-lucide="check"></i><span>Pesan Terkirim!</span>';
     btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
 
-    // Re-initialize lucide icons for the new icon
+    // Re-initialize lucide icons
     lucide.createIcons();
 
     setTimeout(() => {
@@ -192,28 +186,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ========== TYPING EFFECT FOR HERO ==========
-const roles = ['Digital Designer', 'Social Media Marketing', 'Front-end Developer'];
-let roleIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-
-function typeRole() {
-    const roleElements = document.querySelectorAll('.role');
-    if (roleElements.length === 0) return;
-
-    // This is a simple visual enhancement - roles are already displayed
-    // Could be extended for more complex typing animation
-}
-
-// ========== INITIALIZE LUCIDE ICONS ==========
-document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons();
-
-    // Add loaded class to body for animations
-    document.body.classList.add('loaded');
-});
-
 // ========== PARALLAX EFFECT FOR HERO ==========
 window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
@@ -222,15 +194,15 @@ window.addEventListener('scroll', () => {
     if (hero && scrolled < window.innerHeight) {
         const heroContent = hero.querySelector('.hero-content');
         if (heroContent) {
-            heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-            heroContent.style.opacity = 1 - (scrolled / (window.innerHeight * 0.8));
+            heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
+            heroContent.style.opacity = 1 - (scrolled / (window.innerHeight * 0.7));
         }
     }
 });
 
-// ========== CURSOR GLOW EFFECT ==========
+// ========== ENHANCED CURSOR GLOW EFFECT ==========
 document.addEventListener('mousemove', (e) => {
-    const cards = document.querySelectorAll('.skill-card, .project-card, .achievement-card, .info-card');
+    const cards = document.querySelectorAll('.skill-card, .project-card, .achievement-card, .info-card, .cert-card');
 
     cards.forEach(card => {
         const rect = card.getBoundingClientRect();
@@ -242,30 +214,41 @@ document.addEventListener('mousemove', (e) => {
     });
 });
 
-// Add hover glow effect styles
+// Add enhanced glow effect styles
 const glowStyle = document.createElement('style');
 glowStyle.textContent = `
     .skill-card::after,
     .project-card::after,
-    .achievement-card::after {
+    .achievement-card::after,
+    .cert-card::after {
         content: '';
         position: absolute;
         inset: 0;
         background: radial-gradient(
-            600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            rgba(99, 102, 241, 0.06),
+            700px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(99, 102, 241, 0.08),
             transparent 40%
         );
         border-radius: inherit;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.4s ease;
         pointer-events: none;
+        z-index: 0;
     }
     
     .skill-card:hover::after,
     .project-card:hover::after,
-    .achievement-card:hover::after {
+    .achievement-card:hover::after,
+    .cert-card:hover::after {
         opacity: 1;
+    }
+    
+    .skill-card > *,
+    .project-card > *,
+    .achievement-card > *,
+    .cert-card > * {
+        position: relative;
+        z-index: 1;
     }
 `;
 document.head.appendChild(glowStyle);
@@ -327,25 +310,209 @@ function initCertificateModal() {
     });
 }
 
-// ========== OBSERVE CERTIFICATE CARDS ==========
-document.querySelectorAll('.cert-card').forEach(el => {
-    el.classList.add('animate-item');
-    observer.observe(el);
-});
+// ========== CURSOR TRAIL EFFECT ==========
+function createCursorTrail() {
+    const trail = [];
+    const trailLength = 20;
 
-// Add certificate card animation delays
-const certStyle = document.createElement('style');
-certStyle.textContent = `
-    .cert-card:nth-child(2) { transition-delay: 0.1s; }
-    .cert-card:nth-child(3) { transition-delay: 0.2s; }
-    .cert-card:nth-child(4) { transition-delay: 0.3s; }
-    .cert-card:nth-child(5) { transition-delay: 0.4s; }
+    for (let i = 0; i < trailLength; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'cursor-trail-dot';
+        document.body.appendChild(dot);
+        trail.push(dot);
+    }
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animateTrail() {
+        let x = mouseX;
+        let y = mouseY;
+
+        trail.forEach((dot, index) => {
+            const nextDot = trail[index + 1] || trail[0];
+
+            dot.style.left = x + 'px';
+            dot.style.top = y + 'px';
+
+            x += (parseInt(nextDot.style.left) || x - x) * 0.3;
+            y += (parseInt(nextDot.style.top) || y - y) * 0.3;
+        });
+
+        requestAnimationFrame(animateTrail);
+    }
+
+    animateTrail();
+}
+
+// Add cursor trail styles
+const cursorTrailStyle = document.createElement('style');
+cursorTrailStyle.textContent = `
+    .cursor-trail-dot {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        background: rgba(99, 102, 241, 0.3);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transition: opacity 0.3s ease;
+    }
+    
+    .cursor-trail-dot:nth-child(1) { opacity: 0.8; }
+    .cursor-trail-dot:nth-child(5) { opacity: 0.6; }
+    .cursor-trail-dot:nth-child(10) { opacity: 0.4; }
+    .cursor-trail-dot:nth-child(15) { opacity: 0.2; }
+    .cursor-trail-dot:nth-child(20) { opacity: 0.1; }
+    
+    @media (max-width: 768px) {
+        .cursor-trail-dot {
+            display: none;
+        }
+    }
 `;
-document.head.appendChild(certStyle);
+document.head.appendChild(cursorTrailStyle);
 
-// Initialize certificate modal on DOM ready
+// ========== TYPING EFFECT FOR ROLES ==========
+function initTypingEffect() {
+    const roles = document.querySelectorAll('.role');
+
+    roles.forEach((role, index) => {
+        const text = role.textContent;
+        role.textContent = '';
+        role.style.opacity = '0';
+
+        setTimeout(() => {
+            role.style.opacity = '1';
+            let charIndex = 0;
+
+            const typeInterval = setInterval(() => {
+                if (charIndex < text.length) {
+                    role.textContent += text.charAt(charIndex);
+                    charIndex++;
+                } else {
+                    clearInterval(typeInterval);
+                }
+            }, 50);
+        }, index * 400);
+    });
+}
+
+// ========== SCROLL PROGRESS INDICATOR ==========
+function createScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (window.scrollY / windowHeight) * 100;
+        progressBar.style.width = scrolled + '%';
+    });
+}
+
+// Add scroll progress styles
+const scrollProgressStyle = document.createElement('style');
+scrollProgressStyle.textContent = `
+    .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+        z-index: 10000;
+        transition: width 0.2s ease;
+    }
+`;
+document.head.appendChild(scrollProgressStyle);
+
+// ========== NUMBER COUNTER ANIMATION ==========
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+
+    counters.forEach(counter => {
+        const target = parseInt(counter.textContent);
+        let current = 0;
+        const increment = target / 50;
+        const suffix = counter.textContent.replace(/[0-9]/g, '');
+
+        const updateCounter = () => {
+            if (current < target) {
+                current += increment;
+                counter.textContent = Math.ceil(current) + suffix;
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target + suffix;
+            }
+        };
+
+        // Start animation when element is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateCounter();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        observer.observe(counter);
+    });
+}
+
+// ========== INITIALIZE EVERYTHING ==========
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Initialize certificate modal
     initCertificateModal();
+
+    // Initialize cursor trail (only on desktop)
+    if (window.innerWidth > 768) {
+        createCursorTrail();
+    }
+
+    // Initialize scroll progress
+    createScrollProgress();
+
+    // Initialize number counters
+    animateCounters();
+
+    // Initialize typing effect
+    setTimeout(() => {
+        initTypingEffect();
+    }, 500);
+
+    // Add loaded class to body
+    document.body.classList.add('loaded');
+
+    console.log('🚀 Portfolio loaded with modern dark theme!');
+    console.log('✨ Enhanced animations and interactions active');
 });
 
-console.log('🚀 Portfolio loaded successfully!');
+// ========== PERFORMANCE OPTIMIZATION ==========
+// Debounce function for scroll events
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Optimize scroll events
+const optimizedScroll = debounce(() => {
+    // Scroll-based animations here
+}, 10);
+
+window.addEventListener('scroll', optimizedScroll);
